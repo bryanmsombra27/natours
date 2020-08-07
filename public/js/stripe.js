@@ -16,7 +16,7 @@ const bookTour = async (tourid) => {
 
     //2) create checkoutform + charge credit card
     await stripe.redirectToCheckout({
-        sessionId: data.sesion.id
+        sessionId: data.session.id
     });
 
 
