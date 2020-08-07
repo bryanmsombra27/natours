@@ -12,7 +12,7 @@ const bookTour = async (tourid) => {
     const session = await fetch(`/api/v1/bookings/checkout-session/${tourid}`);
     const data = await session.json();
     console.log(data);
-    console.log(data.session.id);
+    console.log(data.id);
 
     //2) create checkoutform + charge credit card
     await stripe.redirectToCheckout({
