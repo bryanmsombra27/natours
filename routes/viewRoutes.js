@@ -12,15 +12,15 @@ const {
     isLoggedIn,
     protect
 } = require('../controller/authController');
-const {
-    createBookingCheckout
-} = require('../controller/bookingController');
+// const {
+//     createBookingCheckout
+// } = require('../controller/bookingController');
 
 
 
 
 //renderizando las vistas con PUG
-router.get("/", createBookingCheckout, isLoggedIn, overview);
+router.get("/", isLoggedIn, overview); //, createBookingCheckout
 router.get("/tour/:slug", isLoggedIn, getTour);
 router.get("/login", isLoggedIn, getLoginForm);
 router.get("/me", protect, getAccount);

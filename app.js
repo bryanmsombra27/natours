@@ -19,9 +19,14 @@ const userRoutes = require('./routes/usersRoutes');
 const reviewRoutes = require('./routes/reviewsRoutes');
 const viewRoutes = require('./routes/viewRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
+const {
+  webhookCheckout
+} = require('./controller/bookingController');
 const AppError = require('./utils/appError');
 const cors = require('cors');
-const { globalErrorHandler } = require('./controller/ErrorController');
+const {
+  globalErrorHandler
+} = require('./controller/ErrorController');
 const path = require('path'); //modulo nativo de node para trabajar las rutas
 
 //confiar en puertos proxys
@@ -52,6 +57,8 @@ app.use(helmet());
 //   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 //   next();
 // });
+
+
 
 //CONVERTIR TODAS LAS ENTRADAS DE INFORMACION A FORMATO JSON
 app.use(
@@ -101,6 +108,11 @@ const limiter = rateLimit({
 app.use(compression());
 //afecta a todos los que comiencen con esa ruta
 app.use('/api', limiter);
+
+app.post("/webhook-checkout", bodyParser.raw({
+  type: 'application/json'
+}), webhookCheckout);
+
 
 app.use('/api/v1/tours', routerTours);
 app.use('/api/v1/users', userRoutes);
