@@ -21,8 +21,8 @@ const {
 //todas las rutas debera estar logueado el usuario par apoder acceder
 router.use(protect);
 
-router.use(restrictTo("admin", "lead-guide"));
 router.get("/checkout-session/:tourId", getCheckoutSession);
+router.use(restrictTo("admin", "lead-guide"));
 router.get("/", getAllBooking);
 router.post("/", createBooking);
 
