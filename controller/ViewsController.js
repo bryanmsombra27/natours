@@ -75,11 +75,20 @@ const getMyTours = catchAsync(async (req, res, next) => {
         tours
     });
 });
-
+const alerts = (req, res, next) => {
+    const {
+        alert
+    } = req.query;
+    if (alert === "booking") {
+        res.locals.alert = "Tu reservacion se realizo con exito revise su correo para confirmarlo";
+    }
+    next();
+}
 module.exports = {
     overview,
     getTour,
     getLoginForm,
     getAccount,
     getMyTours,
+    alerts
 }

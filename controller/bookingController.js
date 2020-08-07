@@ -28,7 +28,7 @@ const getCheckoutSession = catchAsync(async (req, res, next) => {
         payment_method_types: ['card'],
         // success_url: `${req.protocol}://${req.get('host')}/?tour=${req.params.tourId}&user=${req.user.id}&price=${tour.price}`,
         // cancel_url: `${req.protocol}://${req.get('host')}/tour/${name}`,
-        success_url: `${req.protocol}://${req.get('host')}/my-tours`,
+        success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
         cancel_url: `${req.protocol}://${req.get('host')}/tour/${name}`,
         customer_email: req.user.email,
         client_reference_id: req.params.tourId,
@@ -86,6 +86,8 @@ const webhookCheckout = async (req, res, next) => {
 
     try {
         event = stripe.webhooks.constructEvent(req.body, signature, process.env.STRIPE_WEBHOOK_SECRET);
+
+        console.log(event);
     } catch (error) {
         return res.status(400).send(`Webhook error: ${error.message}`);
     }

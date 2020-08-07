@@ -6,7 +6,8 @@ const {
     getTour,
     getLoginForm,
     getAccount,
-    getMyTours
+    getMyTours,
+    alerts
 } = require('../controller/ViewsController');
 const {
     isLoggedIn,
@@ -18,7 +19,7 @@ const {
 
 
 
-
+router.use(alerts);
 //renderizando las vistas con PUG
 router.get("/", isLoggedIn, overview); //, createBookingCheckout
 router.get("/tour/:slug", isLoggedIn, getTour);
