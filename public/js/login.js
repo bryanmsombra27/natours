@@ -37,7 +37,7 @@ const enviarDatos = async (e) => {
         email: email.value,
         password: password.value
     }
-    const data = await sendData("http://localhost:3000/api/v1/users/login", usuario);
+    const data = await sendData("/api/v1/users/login", usuario);
 
     if (data.status === "success") {
         showAlert("success", "Logueado exitosamente");
@@ -85,7 +85,7 @@ const getData = async (url) => {
 const salirCuenta = async (e) => {
     e.preventDefault();
 
-    const data = await getData("http://localhost:3000/api/v1/users/login");
+    const data = await getData("/api/v1/users/login");
 
     console.log(data);
     if (data.status === "success") {

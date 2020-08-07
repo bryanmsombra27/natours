@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+
+/////paquetes utilizados
 const express = require('express');
 const rateLimit = require("express-rate-limit");
 const app = express();
@@ -8,6 +10,10 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp'); //parametros
 const cookieParser = require('cookie-parser');
+const compression = require('compression'); //un middleware que permite hacer que las respuestas al usuario no pesen tanto
+
+///////////////////////////////////////////////////////////////
+
 const routerTours = require('./routes/routes');
 const userRoutes = require('./routes/usersRoutes');
 const reviewRoutes = require('./routes/reviewsRoutes');
@@ -82,6 +88,8 @@ const limiter = rateLimit({
 
 /////////////////////////////////////////////
 
+///comprime todas las respuestas que sean enviadas al usuario (no funciona en imagenes, solo texto)
+app.use(compression());
 //afecta a todos los que comiencen con esa ruta
 app.use("/api", limiter);
 

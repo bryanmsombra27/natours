@@ -36,7 +36,7 @@ const actualizarDatos = async (e) => {
         showAlert2("error", "Campos vacios");
         return;
     }
-    const data = await enviardatosUpdatePhoto("http://localhost:3000/api/v1/users/updateMe", formData);
+    const data = await enviardatosUpdatePhoto("/api/v1/users/updateMe", formData);
     console.log(data);
     if (data.status === "success") {
         showAlert2("success", "Los datos han sido actualizados con exito");
@@ -62,7 +62,7 @@ const actualizarPassword = async (e) => {
             passwordConfirm
         };
 
-        const data = await enviardatosUpdate("http://localhost:3000/api/v1/users/updateMyPassword", objeto);
+        const data = await enviardatosUpdate("/api/v1/users/updateMyPassword", objeto);
 
         console.log(data);
         if (data.status === "success") {
