@@ -57,6 +57,9 @@ app.use(helmet());
 //   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 //   next();
 // });
+app.post("/webhook-checkout", bodyParser.raw({
+  type: 'application/json'
+}), webhookCheckout);
 
 
 
@@ -109,9 +112,6 @@ app.use(compression());
 //afecta a todos los que comiencen con esa ruta
 app.use('/api', limiter);
 
-app.post("/webhook-checkout", bodyParser.raw({
-  type: 'application/json'
-}), webhookCheckout);
 
 
 app.use('/api/v1/tours', routerTours);
