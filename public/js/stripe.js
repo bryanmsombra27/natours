@@ -9,15 +9,20 @@ const {
 const bookTour = async (tourid) => {
     // e.preventDefault();
     //1) get the sesion from endpoint
-    const session = await fetch(`/api/v1/bookings/checkout-session/${tourid}`);
-    const data = await session.json();
-    console.log(data);
-    console.log(data.id);
+    try {
+        const session = await fetch(`/api/v1/bookings/checkout-session/${tourid}`);
+        const data = await session.json();
+        console.log(data);
+        console.log(data.id);
 
-    //2) create checkoutform + charge credit card
-    await stripe.redirectToCheckout({
-        sessionId: data.session.id
-    });
+        //2) create checkoutform + charge credit card
+        await stripe.redirectToCheckout({
+            sessionId: data.session.id
+        });
+
+    } catch (err) {
+        console.log(err);
+    }
 
 
 };
