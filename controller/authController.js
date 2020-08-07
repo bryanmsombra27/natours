@@ -17,20 +17,17 @@ const signToken = id => {
     expiresIn: process.env.JWT_EXPIRES_IN
   });
 }
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
   //4) log user in send JWt
-  const cookieOptions = {
-    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
-    httpOnly: true //cuando se utiliza este metodo de seguridad en la cookie no puede ser manipulada o eliminada
-  };
+
 
   //enviar el token en una cookie
-  if (process.env.NODE_ENV === "production") {
-    cookieOptions.secure = true;
-  }
-
-  res.cookie("jwt", token, cookieOptions);
+  res.cookie("jwt", token, {
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+    httpOnly: true, //cuando se utiliza este metodo de seguridad en la cookie no puede ser manipulada o eliminada,
+    secure: req.secure || req.headers["x-forwarded-proto"] === "https"
+  });
 
   //quitar la contraseña de la informacion que se mostrara al usuario
   user.password = undefined;
@@ -57,7 +54,7 @@ const signup = catchAsync(async (req, res, next) => {
   const url = `${req.protocol}://${req.get("host")}/me`;
   console.log(url);
   await new Email(newUser, url).sendWelcome();
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, req, res);
 });
 
 
@@ -83,7 +80,7 @@ const login = catchAsync(async (req, res, next) => {
     return next(new AppError("Contraseña o email incorrectos", 401));
   }
 
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 
 
 });
@@ -212,7 +209,7 @@ const resetPassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   //3)update change password at property for the user
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 
 });
 const updatePassword = catchAsync(async (req, res, next) => {
@@ -229,7 +226,7 @@ const updatePassword = catchAsync(async (req, res, next) => {
 
 
   //4)log user in, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 
 });
 ///solo para renderizar vistas

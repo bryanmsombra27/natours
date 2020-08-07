@@ -25,6 +25,10 @@ const {
 } = require('./controller/ErrorController');
 const path = require('path'); //modulo nativo de node para trabajar las rutas
 
+
+//confiar en puertos proxys
+app.enable("trust proxy");
+
 //configurando la plantilla para renderizar las vistas 
 app.set("view engine", "pug");
 ///colocando la carpeta de donde seran leidas las templates de pug
